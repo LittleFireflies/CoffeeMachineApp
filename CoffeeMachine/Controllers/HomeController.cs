@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,9 +25,21 @@ namespace CoffeeMachine.Controllers
             _client = new HttpClient();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, baseUrl + "/menus");
+            HttpResponseMessage response = await _client.SendAsync(request);
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    string responseString = await response.Content.ReadAsStringAsync();
+                    var result = JsonSerializer.Deserialize<Response<Menu[]>>(responseString);
+                    List<Menu> menus = result.Data.ToList();
+                    return View(menus);
+                default:
+                    return Error();
+            }
         }
 
         public async Task<IActionResult> Order(int? id)
@@ -44,7 +57,7 @@ namespace CoffeeMachine.Controllers
                 case HttpStatusCode.OK:
                     string responseString = await response.Content.ReadAsStringAsync();
                     TempData["Notification"] = responseString;
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 default:
                     return Error();
             }
