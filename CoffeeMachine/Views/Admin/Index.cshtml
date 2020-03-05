@@ -3,4 +3,31 @@
 }
 
 <button type="button" class="btn btn-info btn-lg">Fill Stocks</button>
-<button type="button" class="btn btn-success btn-lg">Take Money</button>
+<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#takeMoneyModal">Take Money</button>
+
+<div class="modal fade" id="takeMoneyModal" tabindex="-1" role="dialog" aria-labelledby="takeMoneyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="takeMoneyModalLabel">Take Money</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to take all your money?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("TakeMoney", "Admin")'">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["TakeMoneyNotification"] != null)
+{
+    <script type="text/javascript">
+        alert("@TempData["TakeMoneyNotification"]")
+    </script>
+}
