@@ -2,7 +2,7 @@
     ViewData["Title"] = "Admin Page";
 }
 
-<button type="button" class="btn btn-info btn-lg">Fill Stocks</button>
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#fillStockModal">Fill Stocks</button>
 <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#takeMoneyModal">Take Money</button>
 
 <div class="modal fade" id="takeMoneyModal" tabindex="-1" role="dialog" aria-labelledby="takeMoneyModalLabel" aria-hidden="true">
@@ -25,9 +25,50 @@
     </div>
 </div>
 
+<div class="modal fade" id="fillStockModal" tabindex="-1" role="dialog" aria-labelledby="takeMoneyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fillStockModalLabel">Fill Stocks</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="FillStock">
+                    <div class="form-group">
+                        <label for="coffeeBeansStock">Coffee Beans</label>
+                        <input type="number" name="coffeeBeansInput" class="form-control" id="coffeeBeansStock" aria-describedby="inputCoffeeBeans" placeholder="Write how many grams of coffee do you want to add">
+                    </div>
+                    <div class="form-group">
+                        <label for="waterStock">Water</label>
+                        <input type="number" name="waterInput" class="form-control" id="waterStock" aria-describedby="inputWater" placeholder="Write how many ml of water do you want to add">
+                    </div>
+                    <div class="form-group">
+                        <label for="milkStock">Milk</label>
+                        <input type="number" name="milkInput" class="form-control" id="milkStock" aria-describedby="inputMilk" placeholder="Write how many ml of milk do you want to add">
+                    </div>
+                    <div class="form-group">
+                        <label for="cupsStock">Disposable Cups</label>
+                        <input type="number" name="cupsInput" class="form-control" id="cupsStock" aria-describedby="inputcups" placeholder="Write how many disposable cups of coffee do you want to add">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @if (TempData["TakeMoneyNotification"] != null)
 {
     <script type="text/javascript">
         alert("@TempData["TakeMoneyNotification"]")
+    </script>
+}
+
+@if (TempData["FillStockNotification"] != null)
+{
+    <script type="text/javascript">
+        alert("@TempData["FillStockNotification"]")
     </script>
 }
